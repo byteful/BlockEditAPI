@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group 'me.byteful.lib.blockedit'
+version '2.0.0'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+        name = "spigot"
+        content {
+            includeGroup "org.bukkit"
+            includeGroup "org.spigotmc"
+        }
+    }
+    maven {
+        url = "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+
+    compileOnly 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
+    compileOnly 'org.jetbrains:annotations:22.0.0'
+
+    implementation project(":common")
+    implementation project(":1_8_R3")
+}
+
+shadowJar {
+    archiveFileName = "BlockEditAPI-${archiveVersion}.jar"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    disableAutoTargetJvm()
+}

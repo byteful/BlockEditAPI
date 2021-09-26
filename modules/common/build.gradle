@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+        name = "spigot"
+        content {
+            includeGroup "org.bukkit"
+            includeGroup "org.spigotmc"
+        }
+    }
+    maven {
+        url = "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    compileOnly 'org.spigotmc:spigot-api:1.13.2-R0.1-SNAPSHOT'
+    compileOnly 'org.jetbrains:annotations:22.0.0'
+}
+
+test {
+    useJUnitPlatform()
+}

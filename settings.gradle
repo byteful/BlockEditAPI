@@ -1,0 +1,5 @@
+rootProject.name = 'BlockEditAPI'
+include 'common'
+project(':common').setProjectDir(new File("modules/common"))
+include '1_8_R3'
+project(':1_8_R3').setProjectDir(new File("modules/1_8_R3"))
