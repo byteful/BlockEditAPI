@@ -11,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The core class of BlockEditAPI. All available methods are found here.
+ */
 public final class BlockEditAPI {
   @NotNull
   private static final Set<ChunkLocation> CHUNK_BUFFER = new HashSet<>();
@@ -18,6 +21,11 @@ public final class BlockEditAPI {
   private static BlockEditHandler handler;
   private static BlockEditOption option;
 
+  /**
+   * Loads BlockEditAPI and automatically finds the BlockEditHandler from the provided option and server version.
+   *
+   * @param option the option to use
+   */
   public static void load(@NotNull BlockEditOption option) {
     BlockEditAPI.option = option;
     if(option == BlockEditOption.BUKKIT) {
@@ -43,11 +51,22 @@ public final class BlockEditAPI {
     }
   }
 
+  /**
+   * Loads BlockEditAPI with the provided option and handler.
+   *
+   * @param option the option to use
+   * @param handler the handler to use
+   */
   public static void load(@NotNull BlockEditOption option, @NotNull BlockEditHandler handler) {
     BlockEditAPI.option = option;
     BlockEditAPI.handler = handler;
   }
 
+  /**
+   * Updates/changes the option to the provided option.
+   *
+   * @param option the new option
+   */
   public static void setOption(@NotNull BlockEditOption option) {
     BlockEditAPI.option = option;
 
@@ -70,8 +89,17 @@ public final class BlockEditAPI {
     if(block.getY() > block.getWorld().getMaxHeight() || block.getY() < 0) {
       throw new IllegalArgumentException("Cannot modify block that is out of world bounds!");
     }
+
+    if(!block.getChunk().isLoaded()) {
+      block.getChunk().load(false);
+    }
   }
 
+  /**
+   * Updates the given BlockState with the set option.
+   *
+   * @param state the blockstate to update
+   */
   public static void updateBlockState(@NotNull BlockState state) {
     runChecks(state.getBlock());
 
@@ -79,13 +107,18 @@ public final class BlockEditAPI {
     handler.updateBlock(option, state);
   }
 
-  public static void updateChunks(boolean fixLighting, boolean applyPhysics) {
+  /**
+   * Updates all the chunks in the buffer. This will push all changes done to the blocks to all players who can currently see the modified chunks.
+   *
+   * @param doBlockUpdates true if lighting and physics should be updated
+   */
+  public static void updateChunks(boolean doBlockUpdates) {
     CHUNK_BUFFER.forEach(
         chunk -> {
           for (Player player : chunk.getWorld().getPlayers()) {
             final ChunkLocation playerChunk = new ChunkLocation(player.getLocation().getBlock());
             if(chunk.distance(playerChunk) <= Bukkit.getViewDistance() && chunk.getWorld().isChunkLoaded(chunk.getX(), chunk.getZ())) {
-              handler.updateChunk(player, chunk.getX(), chunk.getZ(), fixLighting, applyPhysics);
+              handler.updateChunk(player, chunk.getX(), chunk.getZ(), doBlockUpdates);
             }
           }
         });

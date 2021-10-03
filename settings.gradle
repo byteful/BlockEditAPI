@@ -3,3 +3,5 @@ include 'common'
 project(':common').setProjectDir(new File("modules/common"))
 include '1_8_R3'
 project(':1_8_R3').setProjectDir(new File("modules/1_8_R3"))
+include '1_17_R1'
+project(':1_17_R1').setProjectDir(new File("modules/1_17_R1"))

@@ -13,7 +13,7 @@ public class BlockEditBukkitHandler implements BlockEditHandler {
   }
 
   @Override
-  public void updateChunk(@NotNull Player player, int x, int z, boolean updateLight, boolean updatePhysics) {
+  public void updateChunk(@NotNull Player player, int x, int z, boolean doBlockUpdates) {
     // Chunk is already updated in updateBlock(...);
   }
 }

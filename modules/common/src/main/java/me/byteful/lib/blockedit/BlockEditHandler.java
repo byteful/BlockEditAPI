@@ -7,5 +7,5 @@ import org.jetbrains.annotations.NotNull;
 public interface BlockEditHandler {
   void updateBlock(@NotNull BlockEditOption option, @NotNull BlockState state);
 
-  void updateChunk(@NotNull Player player, int x, int z, boolean updateLight, boolean updatePhysics);
+  void updateChunk(@NotNull Player player, int x, int z, boolean doBlockUpdates);
 }

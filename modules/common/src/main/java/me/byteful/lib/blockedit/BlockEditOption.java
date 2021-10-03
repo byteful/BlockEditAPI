@@ -8,20 +8,20 @@ package me.byteful.lib.blockedit;
  */
 public enum BlockEditOption {
   /**
-   * Uses NMSWorld to set the block type and data. This method can place 80k-90k blocks per second.
+   * Uses NMSWorld to set the block type and data. This method can place 2M blocks per second.
    *
    * <p>Note: Safest NMS method to update blocks. Recommended for most use cases.
    */
   NMS_SAFE,
   /**
-   * Uses NMSChunk to set the block type and data. This method can place around 1.7-2.2 million
+   * Uses NMSChunk to set the block type and data. This method can place around 7M million
    * blocks per second.
    *
    * <p>Note: This method can cause incompatibilities.
    */
   NMS_FAST,
   /**
-   * Uses NMSDataPalette to set the block type and data. This method can place around 12-14 million
+   * Uses NMSDataPalette to set the block type and data. This method can place around 14M million
    * blocks per second.
    *
    * <p>Note: This method is extremely fast, but may fail to set blocks.
