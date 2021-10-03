@@ -10,7 +10,7 @@ can modify up to **15 million blocks per second**!
 
 - Specifications for system: AMD Ryzen 3600X with 3200 MHZ DDR4 16 GB RAM <br>
 - Specifications for MC server: PaperSpigot 1.8.8 with 4 GB of allocated RAM
-- How it was tested: 200x200x200 cube was set to stone and time was calculated in ms.
+- How it was tested: 100x100x100 cube was set to stone and time was calculated in ms.
 
 ### "Bukkit" Option:
 
@@ -18,15 +18,15 @@ Modified 50k-60k blocks per second.
 
 ### "NMS_Safe" Option:
 
-Modified 80k-90k blocks per second.
+Modified 2M blocks per second.
 
 ### "NMS_Fast" Option:
 
-Modified 1.7m-2.2m blocks per second.
+Modified 7M blocks per second.
 
 ### "NMS_Unsafe" Option:
 
-Modified 12.7m-14.1m blocks per second.
+Modified 14M blocks per second.
 
 # Supported Versions & Software:
 
@@ -37,6 +37,8 @@ Modified 12.7m-14.1m blocks per second.
 **Note: Other forks of software listed above may work. The software will need the Bukkit API present and optionally, NMS.**
 
 # Maven/Gradle Dependency:
+
+### [!] DO NOT USE THIS RIGHT NOW! DEPENDENCIES ARE BEING UPDATED.
 
 ### Maven:
 
@@ -50,7 +52,7 @@ Modified 12.7m-14.1m blocks per second.
 <dependency>
   <groupId>com.github.byteful</groupId>
   <artifactId>BlockEditAPI</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
@@ -63,7 +65,7 @@ repositories {
 ```
 ```groovy
 dependencies {
-  implementation 'com.github.byteful:BlockEditAPI:1.0.3'
+  implementation 'com.github.byteful:BlockEditAPI:1.0.0'
 }
 ```
 
