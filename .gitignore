@@ -112,3 +112,7 @@ buildNumber.properties
 
 # Common working directory
 run/
+/modules/1_17_R1/build/
+/modules/common/build/
+/modules/1_8_R3/build/
+/build/
