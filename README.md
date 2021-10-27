@@ -38,8 +38,6 @@ Modified 14M blocks per second.
 
 # Maven/Gradle Dependency:
 
-### [!] DO NOT USE THIS RIGHT NOW! DEPENDENCIES ARE BEING UPDATED.
-
 ### Maven:
 
 ```xml
@@ -52,7 +50,7 @@ Modified 14M blocks per second.
 <dependency>
   <groupId>com.github.byteful</groupId>
   <artifactId>BlockEditAPI</artifactId>
-  <version>1.0.0</version>
+  <version>master-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -65,7 +63,7 @@ repositories {
 ```
 ```groovy
 dependencies {
-  implementation 'com.github.byteful:BlockEditAPI:1.0.0'
+  implementation 'com.github.byteful:BlockEditAPI:master-SNAPSHOT'
 }
 ```
 
