@@ -8,7 +8,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 group 'me.byteful.lib.blockedit'
-version '2.1.0'
+version '2.1.1'
 
 repositories {
     mavenCentral()
@@ -38,7 +38,8 @@ dependencies {
 }
 
 shadowJar {
-    archiveFileName = "BlockEditAPI-${archiveVersion}.jar"
+    archiveBaseName.set("BlockEditAPI")
+    archiveClassifier.set("")
 }
 
 test {
