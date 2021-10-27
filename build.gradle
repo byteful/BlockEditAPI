@@ -35,6 +35,7 @@ dependencies {
 
     implementation project(":common")
     implementation project(":1_8_R3")
+    implementation project(":1_17_R1")
 }
 
 shadowJar {
