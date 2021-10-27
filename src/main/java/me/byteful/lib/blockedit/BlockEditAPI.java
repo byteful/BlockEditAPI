@@ -28,6 +28,7 @@ public final class BlockEditAPI {
    * @param option the option to use
    */
   public static void load(@NotNull BlockEditOption option) {
+    CHUNK_BUFFER.clear();
     BlockEditAPI.option = option;
     if(option == BlockEditOption.BUKKIT) {
       handler = new BlockEditBukkitHandler();
@@ -59,6 +60,7 @@ public final class BlockEditAPI {
    * @param handler the handler to use
    */
   public static void load(@NotNull BlockEditOption option, @NotNull BlockEditHandler handler) {
+    CHUNK_BUFFER.clear();
     BlockEditAPI.option = option;
     BlockEditAPI.handler = handler;
   }
