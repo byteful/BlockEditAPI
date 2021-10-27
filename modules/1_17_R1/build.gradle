@@ -1,9 +1,11 @@
 plugins {
     id 'java'
+    id 'idea'
+    id 'com.github.johnrengelman.shadow'
 }
 
-targetCompatibility = 1.8
-sourceCompatibility = 1.8
+targetCompatibility = 16
+sourceCompatibility = 16
 
 repositories {
     mavenCentral()
