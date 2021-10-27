@@ -44,6 +44,18 @@ shadowJar {
     archiveClassifier.set("")
 }
 
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'me.byteful.lib.blockedit'
+            artifactId = 'blockeditapi'
+            version = '2.1.1'
+
+            from components.java
+        }
+    }
+}
+
 test {
     useJUnitPlatform()
 }
