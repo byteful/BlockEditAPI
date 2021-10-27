@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.state.IBlockData;
 import net.minecraft.world.level.chunk.Chunk;
 import net.minecraft.world.level.chunk.ChunkSection;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.craftbukkit.v1_17_R1.CraftChunk;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
@@ -16,6 +17,8 @@ import org.bukkit.craftbukkit.v1_17_R1.block.data.CraftBlockData;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collection;
 
 public class v1_17_R1_BlockEditHandler implements BlockEditHandler {
   @Override
@@ -83,11 +86,15 @@ public class v1_17_R1_BlockEditHandler implements BlockEditHandler {
   }
 
   @Override
-  public void updateChunk(@NotNull Player player, int x, int z, boolean doBlockUpdates) {
-    CraftWorld world = (CraftWorld) player.getWorld();
-    final Chunk chunk = world.getHandle().getChunkAt(x, z);
+  public void updateChunk(@NotNull World world, @NotNull Collection<Player> players, int x, int z, boolean doBlockUpdates) {
+    if (players.isEmpty()) {
+      return;
+    }
 
-    if (doBlockUpdates && world.isChunkLoaded(x, z)) {
+    CraftWorld cw = (CraftWorld) world;
+    final Chunk chunk = cw.getHandle().getChunkAt(x, z);
+
+    if (doBlockUpdates && cw.isChunkLoaded(x, z)) {
       for (ChunkSection cs : chunk.getSections()) {
         if(cs != null) {
           cs.recalcBlockCounts();
@@ -95,22 +102,23 @@ public class v1_17_R1_BlockEditHandler implements BlockEditHandler {
       }
       int px = x << 4;
       int pz = z << 4;
-      int height = world.getMaxHeight() / 16;
+      int height = cw.getMaxHeight() / 16;
 
       for (int idx = 0; idx < 64; ++idx) {
         final BlockPosition bp = new BlockPosition(px + idx / height, idx % height * 16, pz);
         final Block block = chunk.getType(bp).getBlock();
-        world.getHandle().notifyAndUpdatePhysics(bp, chunk, block.getBlockData(), block.getBlockData(), block.getBlockData(), 2, 512);
+        cw.getHandle().notifyAndUpdatePhysics(bp, chunk, block.getBlockData(), block.getBlockData(), block.getBlockData(), 2, 512);
       }
 
       final BlockPosition bp = new BlockPosition(px + 15, height * 16 - 1, pz + 15);
       final Block block = chunk.getType(bp).getBlock();
-      world.getHandle().notifyAndUpdatePhysics(bp, chunk, block.getBlockData(), block.getBlockData(), block.getBlockData(), 2, 512);
+      cw.getHandle().notifyAndUpdatePhysics(bp, chunk, block.getBlockData(), block.getBlockData(), block.getBlockData(), 2, 512);
     } else {
-      ((CraftPlayer) player)
-          .getHandle()
-          .b
-          .sendPacket(new PacketPlayOutMapChunk(chunk));
+      players.forEach(player ->
+          ((CraftPlayer) player)
+              .getHandle()
+              .b
+              .sendPacket(new PacketPlayOutMapChunk(chunk)));
     }
   }
 }

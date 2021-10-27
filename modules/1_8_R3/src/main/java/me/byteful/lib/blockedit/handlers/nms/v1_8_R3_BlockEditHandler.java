@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
+
 public class v1_8_R3_BlockEditHandler implements BlockEditHandler {
   @Override
   public void updateBlock(@NotNull BlockEditOption option, @NotNull BlockState state) {
@@ -81,11 +83,15 @@ public class v1_8_R3_BlockEditHandler implements BlockEditHandler {
   }
 
   @Override
-  public void updateChunk(@NotNull Player player, int x, int z, boolean doBlockUpdates) {
-    CraftWorld world = (CraftWorld) player.getWorld();
-    final Chunk chunk = world.getHandle().getChunkAt(x, z);
+  public void updateChunk(@NotNull org.bukkit.World world, @NotNull Collection<Player> players, int x, int z, boolean doBlockUpdates) {
+    if(players.isEmpty()) {
+      return;
+    }
 
-    if (doBlockUpdates && world.isChunkLoaded(x, z)) {
+    CraftWorld cw = (CraftWorld) world;
+    final Chunk chunk = cw.getHandle().getChunkAt(x, z);
+
+    if (doBlockUpdates && cw.isChunkLoaded(x, z)) {
       for (ChunkSection cs : chunk.getSections()) {
         if(cs != null) {
           cs.recalcBlockCounts();
@@ -94,22 +100,23 @@ public class v1_8_R3_BlockEditHandler implements BlockEditHandler {
       chunk.initLighting();
       int px = x << 4;
       int pz = z << 4;
-      int height = world.getMaxHeight() / 16;
+      int height = cw.getMaxHeight() / 16;
 
       for (int idx = 0; idx < 64; ++idx) {
         final BlockPosition bp = new BlockPosition(px + idx / height, idx % height * 16, pz);
         final Block block = chunk.getType(bp);
-        world.getHandle().notifyAndUpdatePhysics(bp, chunk, block, block, 3);
+        cw.getHandle().notifyAndUpdatePhysics(bp, chunk, block, block, 3);
       }
 
       final BlockPosition bp = new BlockPosition(px + 15, height * 16 - 1, pz + 15);
       final Block block = chunk.getType(bp);
-      world.getHandle().notifyAndUpdatePhysics(bp, chunk, block, block, 3);
+      cw.getHandle().notifyAndUpdatePhysics(bp, chunk, block, block, 3);
     } else {
-      ((CraftPlayer) player)
+      players.forEach(player ->
+          ((CraftPlayer) player)
           .getHandle()
           .playerConnection
-          .sendPacket(new PacketPlayOutMapChunk(chunk, true, 65535));
+          .sendPacket(new PacketPlayOutMapChunk(chunk, true, 65535)));
     }
   }
 }

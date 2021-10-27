@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -115,12 +116,17 @@ public final class BlockEditAPI {
   public static void updateChunks(boolean doBlockUpdates) {
     CHUNK_BUFFER.forEach(
         chunk -> {
-          for (Player player : chunk.getWorld().getPlayers()) {
+          final List<Player> players = chunk.getWorld().getPlayers();
+          players.removeIf(player -> {
             final ChunkLocation playerChunk = new ChunkLocation(player.getLocation().getBlock());
-            if(chunk.distance(playerChunk) <= Bukkit.getViewDistance() && chunk.getWorld().isChunkLoaded(chunk.getX(), chunk.getZ())) {
-              handler.updateChunk(player, chunk.getX(), chunk.getZ(), doBlockUpdates);
+            if(chunk.distance(playerChunk) >= Bukkit.getViewDistance() && chunk.getWorld().isChunkLoaded(chunk.getX(), chunk.getZ())) {
+              return true;
             }
-          }
+
+            return false;
+          });
+
+          handler.updateChunk(chunk.getWorld(), players, chunk.getX(), chunk.getZ(), doBlockUpdates);
         });
     CHUNK_BUFFER.clear();
   }
