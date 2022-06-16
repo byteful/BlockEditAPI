@@ -1,4 +1,5 @@
-![BlockEditAPI Logo](https://github.com/byteful/BlockEditAPI/blob/master/BlockEditAPI.gif)
+# I recommend using [Ocelot](https://github.com/byteful/ocelot) over this!
+
 
 # Why use BlockEditAPI?
 
